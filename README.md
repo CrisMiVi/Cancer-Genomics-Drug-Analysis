@@ -14,6 +14,7 @@ I used four primary files provided by the Sanger Institute and Massachusetts Gen
 | :--- | :--- | :--- | :--- |
 | **GDSC2-dataset.csv** | 36.32 MB | Raw drug sensitivity results | LN_IC50, AUC, RMSE, Z-Score |
 | **Cell_Lines_Details.xlsx**| 117.32 KB| Genomic profiles of cell lines | WES, CNA, Gene Expression |
+| **Compounds-annotation.csv**| 46.41 KB | Metadata for drugs tested | Drug Targets, Targeted Pathways |
 
 > **Link to Original Source:** [GDSC Database](https://www.cancerrxgene.org/downloads/bulk_download)
 
