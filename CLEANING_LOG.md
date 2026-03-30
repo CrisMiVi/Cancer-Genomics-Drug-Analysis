@@ -48,4 +48,4 @@ Before transformation, a non-destructive audit was performed to identify structu
 * **Referential Integrity:** Utilised `INNER JOIN` logic between drug responses and cell line metadata to ensure every record in the final fact table contains a complete genomic profile.
 * **Denormalisation:** Integrated tissue site and histology data directly into the fact table to optimise query performance for Looker Studio visualisation.
 
-<img width="451" height="687" alt="image" src="https://github.com/user-attachments/assets/ac33480a-cc1b-4e42-8265-bb01b62b8ea8" />
+
