@@ -33,7 +33,7 @@ SELECT
     , COALESCE(Microsatellite_instability_Status_MSI, 'Unknown') AS MSI
     , Screen_Medium
     , Growth_Properties
-FROM `PROJECT_ID.CGDA.Cell_line_details`
+FROM `CGDA.Cell_line_details`
 WHERE Sample_Name != 'TOTAL:';
 
 
@@ -87,7 +87,7 @@ SELECT
         WHEN Z_SCORE > 0.5 OR LN_IC50 > LN(MAX_CONC) THEN 'RESISTANT'
         ELSE 'INTERMEDIATE'
     END AS SENSITIVITY_CALL
-FROM `PROJECT_ID.CGDA.GDSC2`;
+FROM `CGDA.GDSC2`;
 
 
 ----------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ CREATE OR REPLACE TABLE `PROJECT_ID.CGDA.TGCA_tissue_classification_cleaned` AS
 SELECT
     string_field_0 AS TCGA_DESC
     , string_field_1 AS TCGA_name
-FROM `PROJECT_ID.CGDA.TGCA_tissue_classification`;
+FROM `CGDA.TGCA_tissue_classification`;
 
 
 ----------------------------------------------------------------------------------
@@ -131,7 +131,7 @@ WITH drug_ranking AS (
             PARTITION BY DRUG_NAME 
             ORDER BY AVG(RMSE) ASC, COUNT(*) DESC
         ) as preference_rank
-    FROM `PROJECT_ID.CGDA.GDSC2_cleaned`
+    FROM `CGDA.GDSC2_cleaned`
     GROUP BY DRUG_NAME, DRUG_ID
 ),
 -- This list will have the 286 unique drug_IDs, and will contain the lowest RMSE and most data points for each DRUG_ID 
@@ -148,7 +148,7 @@ SELECT
     -- replace blank values
     , CASE WHEN TRIM(`TARGET`) = "" THEN "Unknown" ELSE `TARGET` END AS `TARGET`
     , TARGET_PATHWAY
-FROM `PROJECT_ID.CGDA.screened_compounds` AS comp
+FROM `CGDA.screened_compounds` AS comp
 JOIN best_ranked_table AS ranked ON comp.DRUG_ID = ranked.DRUG_ID;
 
 
