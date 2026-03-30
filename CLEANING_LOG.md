@@ -1,4 +1,4 @@
-# 🛠 Data Cleaning & Transformation Log
+# Data Cleaning & Transformation Log
 
 **Project:** Cancer Genomics & Drug Sensitivity Analysis (GDSC)  
 **Status:** Phase 1 (Data Engineering) Complete  
@@ -10,16 +10,16 @@ The objective of this phase was to consolidate four disparate data sources into 
 
 ## 2. Table-Specific Cleaning Actions
 
-### 🧬 Cell Line Metadata (`Cell_line_details`)
+### Cell Line Metadata (`Cell_line_details`)
 * **Outlier Removal:** Identified and removed a summary row labeled "TOTAL:" to prevent skewing statistical aggregates.
 * **Imputation:** * Identified 176 missing values in `Cancer Type_TCGA` and 16 in `MSI_Status`. 
     * **Decision:** Imputed as `"Unknown"` rather than dropping rows to maintain sample size.
 
-### 💊 Screened Compounds (`screened_compounds`)
+### Screened Compounds (`screened_compounds`)
 * **Conflict Resolution:** Resolved a "Many-to-Many" collision where 71 `DRUG_NAME` entries were associated with multiple `DRUG_ID`s.
 * **Logic:** Implemented **Quality-Based Selection**. For drugs with multiple IDs, the ID with the **lowest Average RMSE** and **highest screening count** was retained. [See SQL script here](./sql/clean_compounds.sql).
 
-### 📊 Drug Response Data (`GDSC2`)
+### Drug Response Data (`GDSC2`)
 * **Reliability Categorization:** Engineered a `RELIABILITY` flag based on RMSE:
     * **Reliable:** < 0.1
     * **Caution:** 0.1 - 0.15
