@@ -8,8 +8,8 @@ CANCER_TYPE_DESCRIPTION_1: Secondary tissue type classification.
 PRIMARY_SITE: Cancer type according to TCGA classification.
 
 HISTOLOGY_TYPE: MISSING
-CAN: 
 
+CAN: Copy Number Alterations, data on gene copy number changes in the cell line.
 GENE_EXPRESSION: Information on gene expression levels in the cell line.
 METHYLATION: Data on DNA methylation patterns in the cell line.
 MSI: Microsatellite instability Status indicates the cell line's MSI status.
@@ -54,7 +54,6 @@ Detailed Column Descriptions:
 
 
 
-Copy Number Alterations (CNA): Data on gene copy number changes in the cell line.
 
 
 
