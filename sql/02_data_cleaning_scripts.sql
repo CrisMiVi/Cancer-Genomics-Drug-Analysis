@@ -23,7 +23,7 @@ SELECT
     COSMIC_identifier
     , Sample_Name
     , WES
-    , CAN
+    , CNA
     , Gene_Expression
     , Methylation
     , Drug_Response
