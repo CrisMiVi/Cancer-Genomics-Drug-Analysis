@@ -1,55 +1,54 @@
-fct_drug_sensitivity
 
-COSMIC_ID: Unique identifier for the cell line from the COSMIC database.
-SAMPLE_NAME: Unique identifier for the cell line sample.
-TCGA_LABEL: Description of the cancer type according to The Cancer Genome Atlas.
-CANCER_TYPE_DESCRIPTION: Primary tissue type classification.
-CANCER_TYPE_DESCRIPTION_1: Secondary tissue type classification.
-PRIMARY_SITE: Cancer type according to TCGA classification.
+# Data Dictionary: Cancer Genomics & Drug Sensitivity (GDSC)
 
-HISTOLOGY_TYPE: MISSING
+This document serves as the formal schema definition for the `fct_drug_sensitivity` (merged) table. It provides descriptions and the analytical significance of each feature to ensure data transparency for clinical and technical stakeholders.
 
-CAN: Copy Number Alterations, data on gene copy number changes in the cell line.
-GENE_EXPRESSION: Information on gene expression levels in the cell line.
-METHYLATION: Data on DNA methylation patterns in the cell line.
-MSI: Microsatellite instability Status indicates the cell line's MSI status.
-GROWTH_PROPERTIES: Characteristics of how the cell line grows in culture.
-DRUG_ID: Unique identifier for the drug used in the experiment.
-DRUG_NAME: Name of the drug used in the experiment.
-DRUG_TARGET: The molecular target(s) of the drug. 
-DRUG_TARGET_PATHWAY: The biological pathway(s) targeted by the drug.
+---
 
-LN_IC50_CAPPED: MISSING
+## 1. Biological & Tissue Metadata
+*Dimensions describing the cancer cell line models.*
 
-Z_SCORE: Standardised score of the drug response, allowing comparison across different drugs and cell lines.
+| Column Name | Description | Analytical Significance |
+| :--- | :--- | :--- |
+| **COSMIC_ID** | Unique identifier for the cell line from the COSMIC database. | The **Primary Key** for biological entities; ensures referential integrity across genomic datasets. |
+| **SAMPLE_NAME** | Common name of the cancer cell line (e.g., A549, MCF7). | Essential for human-readable reporting and cross-referencing with existing oncology literature. |
+| **TCGA_LABEL** | Short-code classification (The Cancer Genome Atlas) for cancer type. | Standardizes the dataset for clinical relevance; allows for comparison with patient-derived tumor data. |
+| **TCGA_DESC** | Full-text description of the TCGA cancer classification. | Provides high-level grouping for **Tissue-Stratified Analysis** (e.g., Lung, Breast, Colon). |
+| **PRIMARY_SITE** | The anatomical location where the cancer first originated. | Used to determine if drug sensitivity is organ-dependent or systemic. |
+| **HISTOLOGY_TYPE** | Pathological classification of the tumor (e.g., Carcinoma, Melanoma). | Critical for identifying **lineage-specific drug vulnerabilities** at a cellular level. |
+| **CAN** | Copy Number Alterations (CNA); data on gene deletions or amplifications. | Identifies genomic structural changes that drive drug resistance or extreme sensitivity. |
+| **GENE_EXPRESSION** | Quantified activity levels of specific genes within the cell line. | Often the strongest predictor of drug response; identifies active biological "engines." |
+| **METHYLATION** | Data on DNA chemical modifications (epigenetic silencing). | Helps identify "silenced" genes that may bypass a drug's molecular mechanism. |
+| **MSI** | Microsatellite Instability Status (MSS vs. MSI-H). | A vital biomarker for **Genomic Instability**; MSI-H lines often show unique responses to specific inhibitors. |
+| **GROWTH_PROPERTIES** | Characteristics of cell culture growth (e.g., Adherent, Suspension). | Used as a **confounding variable check** to ensure growth method does not bias drug uptake. |
+| **SCREEN_MEDIUM** | The growth medium used during the experimental assay. | Important for experimental control; ensures response is not an artifact of nutrient availability. |
 
-SENSITIVITY_CALL: MISSING 
+---
 
-AUC: Area Under the Curve, a measure of drug effectiveness.
-RMSE: Root Mean Square Error, indicating the fit quality of the dose-response curve.
-SCREEN_MEDIUM: The growth medium used for culturing the cell line.
-MIN_CONC: Minimum concentration of the drug used in the experiment.
-MAX_CONC: Maximum concentration of the drug used in the experiment.
+## 2. Drug & Treatment Metadata
+*Dimensions describing the therapeutic compounds.*
 
+| Column Name | Description | Analytical Significance |
+| :--- | :--- | :--- |
+| **DRUG_ID** | Unique numeric identifier for the specific drug compound. | The **Primary Key** for therapeutics; ensures precision when different vendors use similar generic names. |
+| **DRUG_NAME** | The common or chemical name of the therapeutic agent. | Necessary for stakeholder-facing dashboards and identifying well-known clinical inhibitors. |
+| **DRUG_TARGET** | The molecular protein(s) the drug is designed to inhibit. | Used to validate if the drug is successfully engaging its intended "biological lock." |
+| **DRUG_TARGET_PATHWAY** | The biological signaling pathway targeted by the drug. | Allows for **Pathway-Level Aggregation** (e.g., analyzing the collective performance of all PI3K inhibitors). |
 
+---
 
+## 3. Response Metrics & Quality Control
+*The target variables and experimental boundaries used to measure success.*
 
-About Dataset
-The Genomics of Drug Sensitivity in Cancer (GDSC) dataset is a valuable resource for therapeutic biomarker discovery in cancer research. This dataset combines drug response data with genomic profiles of cancer cell lines, allowing researchers to investigate the relationship between genetic features and drug sensitivity.
-
-Task:
-The primary task associated with this dataset is to predict drug sensitivity (measured as IC50 values) based on genomic features of cancer cell lines. This can involve regression tasks to predict exact IC50 values or classification tasks to categorize cell lines as sensitive or resistant to specific drugs. The dataset also allows for the identification of genomic markers that correlate with drug response.
-
-
-GDSC2-dataset.csv: Contains drug sensitivity data, including IC50 values, for various drugs tested against cancer cell lines.(Original source file)
-Cell_Lines_Details.xlsx: Provides detailed information about the cancer cell lines, including genomic features such as mutations, copy number alterations, and gene expression. (Original source file)
-Compounds-annotation.csv: Offers information about the drugs used in the screening, including their targets and pathways. (Original source file)
-GDSC_DATASET.csv: This is the main dataset file for analysis. It's a merged file combining key information from the above three files, created to facilitate easier analysis. This consolidated dataset includes all necessary features for drug sensitivity prediction and is recommended for use in your analysis.
-Detailed Column Descriptions:
-
-
-
-
+| Column Name | Description | Analytical Significance |
+| :--- | :--- | :--- |
+| **LN_IC50_CAPPED** | Natural log of the $IC_{50}$, truncated at the maximum tested dosage. | **Primary Target Variable.** Standardizes potency while removing noise from unreliable extrapolations beyond the tested range. |
+| **Z_SCORE** | Standardized score of the drug response (Standard Deviations). | Normalizes sensitivity; allows for comparison of a cell line's performance **relative to its peers**. |
+| **SENSITIVITY_CALL** | Categorical label (SENSITIVE, INTERMEDIATE, RESISTANT). | Engineered for **Biomarker Enrichment Studies**; converts continuous data into actionable biological classes. |
+| **AUC** | Area Under the Curve of the dose-response relationship. | Represents **Total Efficacy**; a robust measure for drugs that do not achieve 100% cell inhibition. |
+| **RMSE** | Root Mean Square Error of the fitted dose-response curve. | **Data Quality Metric.** Used to filter out "noisy" experiments where mathematical fit was poor ($RMSE > 0.15$). |
+| **MIN_CONC** | Minimum concentration of the drug used in the assay. | Defines the lower boundary of the experimental testing window. |
+| **MAX_CONC** | Maximum concentration of the drug used in the assay. | Defines the upper boundary; critical for identifying "Censored" resistant data points. |
 
 
 
