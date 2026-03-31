@@ -50,7 +50,6 @@ This document serves as the formal schema definition for the `fct_drug_sensitivi
 | **MIN_CONC** | Minimum concentration of the drug used in the assay. | Defines the lower boundary of the experimental testing window. |
 | **MAX_CONC** | Maximum concentration of the drug used in the assay. | Defines the upper boundary; critical for identifying "Censored" resistant data points. |
 
-<img width="451" height="688" alt="image" src="https://github.com/user-attachments/assets/f2635a47-c15b-4562-beb0-86c3b9b19861" />
 
 
 
