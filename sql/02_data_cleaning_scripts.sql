@@ -2,10 +2,16 @@
 SCRIPT: 02_data_cleaning_scripts.sql
 PURPOSE: Data cleaning for analysis
 DATE: March 2026
+
 RATIONALE:
 - Entity Resolution: Resolved drug name-ID mismatches using a quality hierarchy (RMSE/Screen Count).
 - Pharmacological Capping: Truncated LN_IC50 at Max_Conc to prioritise empirical data over extrapolated noise.
 - Sensitivity Classification: Implemented a Z-Score threshold (< -1.5) to isolate the top 6% responders.
+
+EXECUTION NOTE: 
+To run this script in BigQuery, replace 'YOUR_PROJECT_ID' with your 
+actual GCP Project ID. 
+Example: FROM `YOUR_PROJECT_ID.CGDA.fct_drug_sensitivity`
 */
 
 ----------------------------------------------------------------------------------
