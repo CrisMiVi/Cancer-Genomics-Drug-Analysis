@@ -2,6 +2,11 @@
 SCRIPT: 01_data_validation_scripts.sql
 PURPOSE: Identifying structural inconsistencies, PK violations, and null distributions.
 DATE: March 2026
+
+EXECUTION NOTE: 
+To run this script in BigQuery, replace 'YOUR_PROJECT_ID' with your 
+actual GCP Project ID. 
+Example: FROM `YOUR_PROJECT_ID.CGDA.fct_drug_sensitivity`
 */
 
 ---------------------------------------------------------------------------------
@@ -50,3 +55,5 @@ FROM `CGDA.GDSC2`;
 SELECT COUNT(*) AS blank_targets
 FROM `CGDA.screened_compounds`
 WHERE TRIM(`TARGET`) = "";
+
+
