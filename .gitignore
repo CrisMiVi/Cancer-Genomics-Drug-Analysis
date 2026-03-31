@@ -205,3 +205,11 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# --- CUSTOM SECURITY RULES ---
+# Ignore the folder containing my Google Cloud keys
+keys/
+
+# Ignore all JSON files (just to be extra safe)
+*.json
+
