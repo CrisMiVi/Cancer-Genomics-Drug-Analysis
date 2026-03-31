@@ -8,6 +8,11 @@ DATA ARCHITECTURE DECISIONS:
 - Tissue Labelling: Retained 'Cancer_Type_TCGA' over 'TCGA_DESC' for superior data completeness.
 - Drug Mapping: Prioritised 'PUTATIVE_TARGET' and 'PATHWAY_NAME' as the primary biological descriptors.
 - Dimensionality: Denormalised tissue site and histology for high-performance dashboard filtering.
+
+EXECUTION NOTE: 
+To run this script in BigQuery, replace 'YOUR_PROJECT_ID' with your 
+actual GCP Project ID. 
+Example: FROM `YOUR_PROJECT_ID.CGDA.fct_drug_sensitivity`
 */
 
 CREATE OR REPLACE TABLE `PROJECT_ID.CGDA.fct_drug_sensitivity` AS
